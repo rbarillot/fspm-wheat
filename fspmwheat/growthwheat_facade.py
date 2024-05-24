@@ -155,7 +155,7 @@ class GrowthWheatFacade(object):
                                 growthwheat_hiddenzone_inputs_dict[growthwheat_hiddenzone_input_name] = mtg_hiddenzone_properties[growthwheat_hiddenzone_input_name]
                             all_growthwheat_hiddenzones_inputs_dict[hiddenzone_id] = growthwheat_hiddenzone_inputs_dict
 
-                        # We take only the elements of growing metamers ie. the ones with hiddenzones
+                        # We take only the elements of growing metamers i.e. the ones with hiddenzones
                         for mtg_organ_vid in self._shared_mtg.components_iter(mtg_metamer_vid):
                             mtg_organ_label = self._shared_mtg.label(mtg_organ_vid)
 

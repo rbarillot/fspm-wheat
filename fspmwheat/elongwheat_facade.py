@@ -168,7 +168,7 @@ class ElongWheatFacade(object):
                         if is_valid_hiddenzone:
                             all_elongwheat_hiddenzones_dict[hiddenzone_id] = elongwheat_hiddenzone_inputs_dict
                             # Complete dict of lengths
-                            if mtg_metamer_index == 0:                            # Not emerged coleoptile
+                            if mtg_metamer_index == 0:  # Not emerged coleoptile
                                 all_elongwheat_length_dict[axis_id][mtg_metamer_index]['sheath'].append(mtg_hiddenzone_properties['leaf_L'])
 
                             if mtg_hiddenzone_properties['leaf_is_emerged'] and mtg_hiddenzone_properties['leaf_is_growing']:
@@ -406,8 +406,8 @@ class ElongWheatFacade(object):
         """
 
         for elongwheat_data_df, \
-            shared_inputs_outputs_indexes, \
-            shared_inputs_outputs_df in ((elongwheat_hiddenzones_data_df, SHARED_HIDDENZONES_INPUTS_OUTPUTS_INDEXES, self._shared_hiddenzones_inputs_outputs_df),
-                                         (elongwheat_elements_data_df, SHARED_ELEMENTS_INPUTS_OUTPUTS_INDEXES, self._shared_elements_inputs_outputs_df),
-                                         (elongwheat_axes_data_df, SHARED_AXES_INPUTS_OUTPUTS_INDEXES, self._shared_axes_inputs_outputs_df)):
+                shared_inputs_outputs_indexes, \
+                shared_inputs_outputs_df in ((elongwheat_hiddenzones_data_df, SHARED_HIDDENZONES_INPUTS_OUTPUTS_INDEXES, self._shared_hiddenzones_inputs_outputs_df),
+                                             (elongwheat_elements_data_df, SHARED_ELEMENTS_INPUTS_OUTPUTS_INDEXES, self._shared_elements_inputs_outputs_df),
+                                             (elongwheat_axes_data_df, SHARED_AXES_INPUTS_OUTPUTS_INDEXES, self._shared_axes_inputs_outputs_df)):
             tools.combine_dataframes_inplace(elongwheat_data_df, shared_inputs_outputs_indexes, shared_inputs_outputs_df)

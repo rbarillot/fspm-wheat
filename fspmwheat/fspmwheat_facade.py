@@ -65,35 +65,11 @@ class FSPMWheatFacade(object):
     """
 
     def __init__(self, shared_mtg):
-        # shared_axes_inputs_outputs_df,
-        # shared_organs_inputs_outputs_df,
-        # shared_hiddenzones_inputs_outputs_df,
-        # shared_elements_inputs_outputs_df,
-        # shared_soils_inputs_outputs_df,
-        # update_shared_df = True):
         """
         :param openalea.mtg.mtg.MTG shared_mtg: The MTG shared between all models.
-        :param pandas.DataFrame shared_axes_inputs_outputs_df: the dataframe of inputs and outputs at axes scale shared between all models.
-        :param pandas.DataFrame shared_organs_inputs_outputs_df: the dataframe of inputs and outputs at organs scale shared between all models.
-        :param pandas.DataFrame shared_hiddenzones_inputs_outputs_df: the dataframe of inputs and outputs at hiddenzones scale shared between all models.
-        :param pandas.DataFrame shared_elements_inputs_outputs_df: the dataframe of inputs and outputs at elements scale shared between all models.
-        :param pandas.DataFrame shared_soils_inputs_outputs_df: the dataframe of inputs and outputs at soils scale shared between all models.
-        :param bool update_shared_df: If `True`  update the shared dataframes at init and at each run (unless stated otherwise)
         """
 
         self._shared_mtg = shared_mtg  #: the MTG shared between all models
-
-        # self._shared_axes_inputs_outputs_df = shared_axes_inputs_outputs_df  #: the dataframe at axes scale shared between all models
-        # self._shared_organs_inputs_outputs_df = shared_organs_inputs_outputs_df  #: the dataframe at organs scale shared between all models
-        # self._shared_hiddenzones_inputs_outputs_df = shared_hiddenzones_inputs_outputs_df  #: the dataframe at hiddenzones scale shared between all models
-        # self._shared_elements_inputs_outputs_df = shared_elements_inputs_outputs_df  #: the dataframe at elements scale shared between all models
-        # self._shared_soils_inputs_outputs_df = shared_soils_inputs_outputs_df  #: the dataframe at soils scale shared between all models
-        # self._update_shared_df = update_shared_df
-        # if self._update_shared_df:
-        #     self._update_shared_dataframes(cnwheat_organs_data_df=model_organs_inputs_df,
-        #                                    cnwheat_hiddenzones_data_df=model_hiddenzones_inputs_df,
-        #                                    cnwheat_elements_data_df=model_elements_inputs_df,
-        #                                    cnwheat_soils_data_df=model_soils_inputs_df)
 
     def _read_outputs_on_MTG(self):
         """

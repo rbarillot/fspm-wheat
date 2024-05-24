@@ -211,7 +211,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
     UPDATE_SHARED_DF = False
     if stored_times is None:
         stored_times = 'all'
-    if not (stored_times == 'all' or type(stored_times) == list):
+    if not (stored_times == 'all' or isinstance(stored_times, list)):
         print('stored_times should be either \'all\', a list or an empty list.')
         raise
 
@@ -804,7 +804,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
 
         # import simulation outputs
         data_RER = pd.read_csv(os.path.join(OUTPUTS_DIRPATH, HIDDENZONES_OUTPUTS_FILENAME))
-        data_RER = data_RER[(data_RER.axis == 'MS') & (data_RER.metamer >= 2)].copy()
+        data_RER = data_RER[(data_RER.axis == 'MS') & (data_RER.metamer >= 1)].copy()
         data_RER.sort_values(['t', 'metamer'], inplace=True)
         data_teq = pd.read_csv(os.path.join(OUTPUTS_DIRPATH, AXES_OUTPUTS_FILENAME))
         data_teq = data_teq[data_teq.axis == 'MS'].copy()
@@ -1035,7 +1035,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
 
 
 if __name__ == '__main__':
-    main(2500, forced_start_time=0, run_simu=True, run_postprocessing=True, generate_graphs=True, run_from_outputs=False,
+    main(4000, forced_start_time=1999, run_simu=True, run_postprocessing=True, generate_graphs=True, run_from_outputs=False,
          show_3Dplant=False,
          option_static=False, tillers_replications={'T1': 0.5, 'T2': 0.5, 'T3': 0.5, 'T4': 0.5},
          heterogeneous_canopy=True, N_fertilizations={3549: 357143, 4029: 1000000},
