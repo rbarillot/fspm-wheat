@@ -70,6 +70,7 @@ class CNWheatFacade(object):
     """
 
     def __init__(self, shared_mtg, delta_t, culm_density, update_parameters,
+                 model_axes_inputs_df,
                  model_organs_inputs_df,
                  model_hiddenzones_inputs_df,
                  model_elements_inputs_df,
@@ -85,6 +86,7 @@ class CNWheatFacade(object):
         :param int delta_t: The delta between two runs, in seconds.
         :param dict culm_density: The density of culm. One key per plant.
         :param dict update_parameters: A dictionary with the parameters to update, should have the form {'Organ_label1': {'param1': value1, 'param2': value2}, ...}.
+        :param pandas.DataFrame model_axes_inputs_df: the inputs of the model at axis scale.
         :param pandas.DataFrame model_organs_inputs_df: the inputs of the model at organs scale.
         :param pandas.DataFrame model_hiddenzones_inputs_df: the inputs of the model at hiddenzones scale.
         :param pandas.DataFrame model_elements_inputs_df: the inputs of the model at elements scale.
@@ -102,7 +104,7 @@ class CNWheatFacade(object):
 
         self._simulation = cnwheat_simulation.Simulation(respiration_model=respiwheat_model, delta_t=delta_t, culm_density=culm_density)
 
-        self.population, self.soils = cnwheat_converter.from_dataframes(model_organs_inputs_df, model_hiddenzones_inputs_df, model_elements_inputs_df, model_soils_inputs_df)
+        self.population, self.soils = cnwheat_converter.from_dataframes(model_axes_inputs_df, model_organs_inputs_df, model_hiddenzones_inputs_df, model_elements_inputs_df, model_soils_inputs_df)
 
         self._update_parameters = update_parameters
 
@@ -182,7 +184,7 @@ class CNWheatFacade(object):
         return axes_postprocessing_df, hiddenzones_postprocessing_df, organs_postprocessing_df, elements_postprocessing_df, soils_postprocessing_df
 
     @staticmethod
-    def graphs(axes_postprocessing_df, hiddenzones_postprocessing_df, organs_postprocessing_df, elements_postprocessing_df, soils_postprocessing_df, meteo_data, graphs_dirpath='.'):
+    def graphs(axes_postprocessing_df, hiddenzones_postprocessing_df, organs_postprocessing_df, elements_postprocessing_df, soils_postprocessing_df, meteo_data=None, graphs_dirpath='.'):
         """
         Generate the graphs and save them into `graphs_dirpath`.
 
@@ -234,7 +236,7 @@ class CNWheatFacade(object):
             for mtg_axis_vid in self._shared_mtg.components_iter(mtg_plant_vid):
                 mtg_axis_label = self._shared_mtg.label(mtg_axis_vid)
 
-                #: Hack to treat tillering cases : TEMPORARY
+                #: Hack to deal with tillering cases : TEMPORARY
                 if mtg_axis_label != 'MS':
                     try:
                         tiller_rank = int(mtg_axis_label[1:])
@@ -277,11 +279,25 @@ class CNWheatFacade(object):
                             cnwheat_organ.initialize()
                             # add the new organ to current axis
                             setattr(cnwheat_axis, mtg_organ_label, cnwheat_organ)
+
                         elif cnwheat_organ_class is not cnwheat_model.Grains:
                             is_valid_axis = False
                             break
-                    elif cnwheat_organ_class is not cnwheat_model.Grains:
+
+                    # For the 1st instantiation of the Grains class during a simulation covering vegetative and reproductive stages
+                    elif cnwheat_organ_class is cnwheat_model.Grains:
+                        if mtg_axis_properties['status'] != 'reproductive':
+                            continue
+                        # grains = cnwheat_model.Grains(cnwheat_converter.CNWHEAT_CLASSES_TO_DATAFRAME_ORGANS_MAPPING[cnwheat_model.Grains])
+                        # grains.initialize()
+                        # setattr(cnwheat_axis, cnwheat_converter.CNWHEAT_CLASSES_TO_DATAFRAME_ORGANS_MAPPING[cnwheat_model.Grains], grains)
+
+                    elif cnwheat_organ_class is cnwheat_model.Endosperm:
+                        continue
+
+                    else:
                         is_valid_axis = False
+                        print('Invalid axis because of {}'.format(cnwheat_organ_class))
                         break
 
                 if not is_valid_axis:

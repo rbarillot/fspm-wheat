@@ -381,6 +381,9 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
 
     # -- CNWHEAT --
     # Initial states    
+    cnwheat_axes_initial_state = inputs_dataframes[AXES_INITIAL_STATE_FILENAME][
+        [i for i in cnwheat_facade.cnwheat_converter.AXES_VARIABLES if i in inputs_dataframes[AXES_INITIAL_STATE_FILENAME].columns]].copy()
+
     cnwheat_organs_initial_state = inputs_dataframes[ORGANS_INITIAL_STATE_FILENAME][
         [i for i in cnwheat_facade.cnwheat_converter.ORGANS_VARIABLES if i in inputs_dataframes[ORGANS_INITIAL_STATE_FILENAME].columns]].copy()
 
@@ -404,6 +407,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
                                                    CNWHEAT_TIMESTEP * HOUR_TO_SECOND_CONVERSION_FACTOR,
                                                    PLANT_DENSITY,
                                                    update_parameters_cnwheat,
+                                                   cnwheat_axes_initial_state,
                                                    cnwheat_organs_initial_state,
                                                    cnwheat_hiddenzones_initial_state,
                                                    cnwheat_elements_initial_state,
@@ -1035,7 +1039,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
 
 
 if __name__ == '__main__':
-    main(4000, forced_start_time=1999, run_simu=True, run_postprocessing=True, generate_graphs=True, run_from_outputs=False,
+    main(4000, forced_start_time=355, run_simu=True, run_postprocessing=True, generate_graphs=True, run_from_outputs=False,
          show_3Dplant=False,
          option_static=False, tillers_replications={'T1': 0.5, 'T2': 0.5, 'T3': 0.5, 'T4': 0.5},
          heterogeneous_canopy=True, N_fertilizations={3549: 357143, 4029: 1000000},

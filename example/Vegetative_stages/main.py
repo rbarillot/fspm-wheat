@@ -203,7 +203,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
     UPDATE_SHARED_DF = False
     if stored_times is None:
         stored_times = 'all'
-    if not (stored_times == 'all' or type(stored_times) == list):
+    if not (stored_times == 'all' or isinstance(stored_times, list)):
         print('stored_times should be either \'all\', a list or an empty list.')
         raise
 
@@ -372,7 +372,10 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
                                                                update_shared_df=UPDATE_SHARED_DF)
 
     # -- CNWHEAT --
-    # Initial states    
+    # Initial states
+    cnwheat_axes_initial_state = inputs_dataframes[AXES_INITIAL_STATE_FILENAME][
+        [i for i in cnwheat_facade.cnwheat_converter.AXES_VARIABLES if i in inputs_dataframes[AXES_INITIAL_STATE_FILENAME].columns]].copy()
+
     cnwheat_organs_initial_state = inputs_dataframes[ORGANS_INITIAL_STATE_FILENAME][
         [i for i in cnwheat_facade.cnwheat_converter.ORGANS_VARIABLES if i in inputs_dataframes[ORGANS_INITIAL_STATE_FILENAME].columns]].copy()
 
@@ -396,6 +399,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
                                                    CNWHEAT_TIMESTEP * HOUR_TO_SECOND_CONVERSION_FACTOR,
                                                    PLANT_DENSITY,
                                                    update_parameters_cnwheat,
+                                                   cnwheat_axes_initial_state,
                                                    cnwheat_organs_initial_state,
                                                    cnwheat_hiddenzones_initial_state,
                                                    cnwheat_elements_initial_state,
@@ -1016,7 +1020,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
 
 
 if __name__ == '__main__':
-    main(2500, forced_start_time=0, run_simu=True, run_postprocessing=True, generate_graphs=True, run_from_outputs=False,
+    main(2500, forced_start_time=2109, run_simu=True, run_postprocessing=True, generate_graphs=True, run_from_outputs=False,
          show_3Dplant=False,
          option_static=False, tillers_replications={'T1': 0.5, 'T2': 0.5, 'T3': 0.5, 'T4': 0.5},
          heterogeneous_canopy=True, N_fertilizations={2016: 357143, 2520: 1000000},

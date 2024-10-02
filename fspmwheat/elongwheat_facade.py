@@ -1,4 +1,6 @@
 # -*- coding: latin-1 -*-
+import warnings
+
 import numpy as np
 
 from elongwheat import converter, simulation
@@ -116,7 +118,13 @@ class ElongWheatFacade(object):
 
             # Axis scale
             for mtg_axis_vid in self._shared_mtg.components_iter(mtg_plant_vid):
-                mtg_axis_label = self._shared_mtg.label(mtg_axis_vid)
+                if isinstance(self._shared_mtg.label(mtg_axis_vid), str):
+                    mtg_axis_label = self._shared_mtg.label(mtg_axis_vid)
+                elif isinstance(self._shared_mtg.label(mtg_axis_vid), bytes):
+                    mtg_axis_label = self._shared_mtg.label(mtg_axis_vid).decode('UTF-8')
+                else:
+                    raise TypeError('Axis label type not recognized')
+
                 mtg_axis_properties = self._shared_mtg.get_vertex_property(mtg_axis_vid)
 
                 axis_id = (mtg_plant_index, mtg_axis_label)
@@ -137,7 +145,8 @@ class ElongWheatFacade(object):
                     for i in range(mtg_axis_properties['nb_leaves']):
                         all_elongwheat_length_dict[axis_id][i + 1] = {'sheath': [], 'cumulated_internode': []}
                     # For coleoptile
-                    if self._shared_mtg.label(self._shared_mtg.components_at_scale(mtg_axis_vid, scale=3)[0]) == 'metamer0':
+                    phyto0_id = self._shared_mtg.components_at_scale(mtg_axis_vid, scale=3)[0]
+                    if self._shared_mtg.label(phyto0_id) == 'metamer0':
                         all_elongwheat_length_dict[axis_id][0] = {'sheath': [], 'cumulated_internode': []}
 
                     elongwheat_cumulated_internode_length[axis_id] = []
@@ -193,6 +202,7 @@ class ElongWheatFacade(object):
                         if mtg_organ_label == 'blade':
                             elongwheat_hiddenzone_data_from_mtg_organs_data['lamina_Lmax'] = mtg_organ_properties['shape_mature_length']
                             elongwheat_hiddenzone_data_from_mtg_organs_data['leaf_Wmax'] = mtg_organ_properties['shape_max_width']
+
                         # Element scale
                         for mtg_element_vid in self._shared_mtg.components_iter(mtg_organ_vid):
                             mtg_element_label = self._shared_mtg.label(mtg_element_vid)
@@ -275,8 +285,14 @@ class ElongWheatFacade(object):
 
             # Axis scale
             for mtg_axis_vid in self._shared_mtg.components_iter(mtg_plant_vid):
-                mtg_axis_label = self._shared_mtg.label(mtg_axis_vid)
+                if isinstance(self._shared_mtg.label(mtg_axis_vid), str):
+                    mtg_axis_label = self._shared_mtg.label(mtg_axis_vid)
+                elif isinstance(self._shared_mtg.label(mtg_axis_vid), bytes):
+                    mtg_axis_label = self._shared_mtg.label(mtg_axis_vid).decode('UTF-8')
+                else:
+                    raise TypeError('Axis label type not recognized')
                 axis_id = (mtg_plant_index, mtg_axis_label)
+
                 if axis_id in all_elongwheat_axes_data_dict:
                     elongwheat_axis_data_dict = all_elongwheat_axes_data_dict[axis_id]
                     for axis_data_name, axis_data_value in elongwheat_axis_data_dict.items():
