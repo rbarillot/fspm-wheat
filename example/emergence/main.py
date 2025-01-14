@@ -442,6 +442,8 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
         try:
             current_time_of_the_system = time.time()
             for t_caribu in range(START_TIME, SIMULATION_LENGTH, SENESCWHEAT_TIMESTEP):
+                # if t_caribu == 1 or t_caribu >= 800:
+                #     adel_wheat.scene(g).save('toto_{}.bgeom'.format(t_caribu))
                 # run Caribu
                 PARi = meteo.loc[t_caribu, ['PARi']].iloc[0]
                 DOY = meteo.loc[t_caribu, ['DOY']].iloc[0]
@@ -1026,6 +1028,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
         graph_variables_ph_elements = {'N_content_total': u'N content in green + senesced tissues (% mstruct)'}
         for org_ph in (['blade'], ['sheath'], ['internode'], ['peduncle', 'ear']):
             for variable_name, variable_label in graph_variables_ph_elements.items():
+
                 graph_name = variable_name + '_' + '_'.join(org_ph) + '.PNG'
                 cnwheat_tools.plot_cnwheat_ouputs(df_elt_outputs,
                                                   x_name=x_name,
@@ -1039,8 +1042,8 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
 
 
 if __name__ == '__main__':
-    main(4000, forced_start_time=355, run_simu=True, run_postprocessing=True, generate_graphs=True, run_from_outputs=False,
+    main(4000, forced_start_time=1450, run_simu=True, run_postprocessing=True, generate_graphs=True, run_from_outputs=False,
          show_3Dplant=False,
          option_static=False, tillers_replications={'T1': 0.5, 'T2': 0.5, 'T3': 0.5, 'T4': 0.5},
-         heterogeneous_canopy=True, N_fertilizations={3549: 357143, 4029: 1000000},
+         heterogeneous_canopy=True, N_fertilizations={3525: 357143, 4029: 1000000},
          PLANT_DENSITY={1: 250}, METEO_FILENAME='meteo_Ljutovac2002_since_sowing_on_19981015.csv')
