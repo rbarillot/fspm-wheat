@@ -804,7 +804,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
         # 3) RER during the exponentiel-like phase
 
         # - RER parameters
-        rer_param = dict((k, v) for k, v in elongwheat_parameters.RERmax.items())
+        rer_param = dict((k, v) for k, v in elongwheat_parameters.PARAMETERS.RERmax.items())
 
         # - Simulated RER
 
@@ -1045,5 +1045,5 @@ if __name__ == '__main__':
     main(4000, forced_start_time=1450, run_simu=True, run_postprocessing=True, generate_graphs=True, run_from_outputs=False,
          show_3Dplant=False,
          option_static=False, tillers_replications={'T1': 0.5, 'T2': 0.5, 'T3': 0.5, 'T4': 0.5},
-         heterogeneous_canopy=True, N_fertilizations={3525: 357143, 4029: 1000000},
-         PLANT_DENSITY={1: 250}, METEO_FILENAME='meteo_Ljutovac2002_since_sowing_on_19981015.csv')
+         heterogeneous_canopy=True, N_fertilizations={2949: 357143, 4029: 1000000},
+         PLANT_DENSITY={1: 250}, METEO_FILENAME='meteo_Ljutovac2002_since_sowing_on_19981015.csv') #357143
