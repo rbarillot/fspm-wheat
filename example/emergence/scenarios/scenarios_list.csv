@@ -1,0 +1,6 @@
+Scenario,Simulation_Length,Run_Simulation,Run_From_Outputs,Run_Postprocessing,Generate_Graphs,Scenario_label,METEO_FILENAME
+1,4000,True,False,True,True,Semis 2.5 cm (Sreten),meteo_Ljutovac2002_since_sowing_on_19981015.csv
+2,4000,True,False,True,True,Semis 1.25 cm,meteo_Ljutovac2002_since_sowing_on_19981015.csv
+3,4000,True,False,True,True,Semis 5 cm,meteo_Ljutovac2002_since_sowing_on_19981015.csv
+4,4000,True,False,True,True,Graine -25%,meteo_Ljutovac2002_since_sowing_on_19981015.csv
+5,4000,True,False,True,True,Graine +25%,meteo_Ljutovac2002_since_sowing_on_19981015.csv

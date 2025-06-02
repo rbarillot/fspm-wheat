@@ -236,7 +236,8 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
 
     # read adelwheat inputs at t0
     adel_wheat = AdelDyn(seed=1, scene_unit='m', leaves=echap_leaves(xy_model='Soissons_byleafclass'))
-    g = adel_wheat.load(dir=INPUTS_DIRPATH)
+    g = adel_wheat.load(directory=INPUTS_DIRPATH)
+    adel_wheat.scene(g).save(os.path.join(OUTPUTS_DIRPATH, 'ADEL', 't_init.bgeom'))
 
     # ---------------------------------------------
     # ----- CONFIGURATION OF THE FACADES -------
@@ -424,7 +425,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
     adel_wheat.update_geometry(g)
     if show_3Dplant:
         adel_wheat.plot(g)
-
+    adel_wheat.scene(g).save(os.path.join(OUTPUTS_DIRPATH, 'ADEL', 't_init2.bgeom'))
     # ---------------------------------------------
     # -----      RUN OF THE SIMULATION      -------
     # ---------------------------------------------
@@ -498,7 +499,9 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
                                         Tair = meteo.loc[t_elongwheat, 'air_temperature']
                                         Tsoil = meteo.loc[t_elongwheat, 'soil_temperature']
                                         cnwheat_facade_.run(Tair, Tsoil, tillers_replications)
-
+                                        # Adel 3D plant save
+                                        if t_cnwheat % 24 == 0:
+                                            adel_wheat.scene(g).save(os.path.join(OUTPUTS_DIRPATH, 'ADEL', 't{}.bgeom'.format(t_cnwheat)))
                                     # append outputs at current step to global lists
                                     if (stored_times == 'all') or (t_cnwheat in stored_times):
                                         axes_outputs, elements_outputs, hiddenzones_outputs, organs_outputs, soils_outputs = fspmwheat_facade_.build_outputs_df_from_MTG()
