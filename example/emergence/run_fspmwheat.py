@@ -29,10 +29,7 @@ def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenari
     """
 
     # Path of the directory which contains the inputs of the model
-    if inputs_dir_path:
-        INPUTS_DIRPATH = inputs_dir_path
-    else:
-        INPUTS_DIRPATH = os.path.join('scenarios', 'Scenario_%.4d' % scenario_id, 'inputs')
+    INPUTS_DIRPATH = inputs_dir_path
 
     # Scenario to be run
     scenarios_df = pd.read_csv(os.path.join('scenarios', 'scenarios_list.csv'), index_col='Scenario')
@@ -82,6 +79,9 @@ def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenari
         if not os.path.exists(scenario_postprocessing_dirpath):
             os.mkdir(scenario_postprocessing_dirpath)
 
+        # Meteo
+        meteo = scenario_parameters.get('METEO_FILENAME', 'meteo.csv')
+                             
         # -- RUN main fspmwheat --
         print(scenario_name)
         try:
