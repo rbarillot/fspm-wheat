@@ -29,10 +29,10 @@ def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenari
     """
 
     # Path of the directory which contains the inputs of the model
-    INPUTS_DIRPATH = inputs_dir_path
+    INPUTS_FILENAME = scenario_parameters.get('INPUTS_FILENAME', 'inputs)
 
     # Scenario to be run
-    scenarios_df = pd.read_csv(os.path.join(INPUTS_DIRPATH, 'scenarios_list.csv'), index_col='Scenario')
+    scenarios_df = pd.read_csv(os.path.join(inputs_dir_path, 'scenarios_list.csv'), index_col='Scenario')
     scenario = scenarios_df.loc[scenario_id].to_dict()
     scenario_name = 'Scenario_%.4d' % scenario_id
 
@@ -89,10 +89,11 @@ def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenari
                       run_simu=RUN_SIMU, run_postprocessing=RUN_POSTPROCESSING,
                       generate_graphs=GENERATE_GRAPHS, run_from_outputs=RUN_FROM_OUTPUTS,
                       show_3Dplant=False, heterogeneous_canopy=True,
+                      METEO_FILENAME=meteo,
                       N_fertilizations={3549: 357143, 4029: 1000000},
                       PLANT_DENSITY={1: 250},
                       GRAPHS_DIRPATH=scenario_graphs_dirpath,
-                      INPUTS_DIRPATH=INPUTS_DIRPATH,
+                      INPUTS_DIRPATH=inputs_dir_path,
                       OUTPUTS_DIRPATH=scenario_outputs_dirpath,
                       POSTPROCESSING_DIRPATH=scenario_postprocessing_dirpath,
                       tillers_replications={'T1': 0.5, 'T2': 0.5, 'T3': 0.5, 'T4': 0.5},
