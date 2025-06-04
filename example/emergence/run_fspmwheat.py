@@ -29,7 +29,7 @@ def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenari
     """
 
     # Path of the directory which contains the inputs of the model
-    INPUTS_FILENAME = scenario_parameters.get('INPUTS_FILENAME', 'inputs)
+    INPUTS_FILENAME = scenario_parameters.get('INPUTS_FILENAME', 'inputs')
 
     # Scenario to be run
     scenarios_df = pd.read_csv(os.path.join(inputs_dir_path, 'scenarios_list.csv'), index_col='Scenario')
