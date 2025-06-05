@@ -28,9 +28,6 @@ def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenari
     :param str outputs_dir_path: the path to save outputs
     """
 
-    # Path of the directory which contains the inputs of the model
-    INPUTS_FILENAME = scenario_parameters.get('INPUTS_FILENAME', 'inputs')
-
     # Scenario to be run
     scenarios_df = pd.read_csv(os.path.join(inputs_dir_path, 'scenarios_list.csv'), index_col='Scenario')
     scenario = scenarios_df.loc[scenario_id].to_dict()
@@ -41,6 +38,9 @@ def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenari
     # Create dict of parameters for the scenario
     scenario_parameters = tools.buildDic(scenario)
 
+    # Path of the directory which contains the inputs of the model
+    INPUTS_FILENAME = scenario_parameters.get('INPUTS_FILENAME', 'inputs')
+    
     # Do run the simulation?
     RUN_SIMU = scenario_parameters.get('Run_Simulation', True)
 
