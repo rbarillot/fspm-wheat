@@ -39,7 +39,7 @@ def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenari
     scenario_parameters = tools.buildDic(scenario)
 
     # Path of the directory which contains the inputs of the model
-    INPUTS_FILENAME = scenario_parameters.get('INPUTS_FILENAME', 'inputs')
+    INPUTS_FILENAME = os.path.join(inputs_dir_path, scenario_parameters.get('INPUTS_FILENAME', 'inputs'))
     
     # Do run the simulation?
     RUN_SIMU = scenario_parameters.get('Run_Simulation', True)
@@ -93,7 +93,7 @@ def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenari
                       N_fertilizations={3549: 357143, 4029: 1000000},
                       PLANT_DENSITY={1: 250},
                       GRAPHS_DIRPATH=scenario_graphs_dirpath,
-                      INPUTS_DIRPATH=inputs_dir_path,
+                      INPUTS_DIRPATH=INPUTS_FILENAME,
                       OUTPUTS_DIRPATH=scenario_outputs_dirpath,
                       POSTPROCESSING_DIRPATH=scenario_postprocessing_dirpath,
                       tillers_replications={'T1': 0.5, 'T2': 0.5, 'T3': 0.5, 'T4': 0.5},
