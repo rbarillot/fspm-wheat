@@ -84,6 +84,8 @@ class ElongWheatFacade(object):
         if self._update_shared_df:
             self._update_shared_dataframes(model_hiddenzones_inputs_df, model_elements_inputs_df, model_axes_inputs_df)
 
+        self.seed_is_moistened = True
+
     def run(self, Tair, Tsoil, Zsowing=0.025, option_static=False, optimal_growth_option=False, update_shared_df=None):
         """
         Run the model and update the MTG and the dataframes shared between all models.
@@ -96,12 +98,13 @@ class ElongWheatFacade(object):
         :param bool update_shared_df: if 'True', update the shared dataframes at this time step.
         """
         self._initialize_model()
-        self._simulation.run(Tair, Tsoil, Zsowing, optimal_growth_option)
-        self._update_shared_MTG(self._simulation.outputs['hiddenzone'], self._simulation.outputs['elements'], self._simulation.outputs['axes'], option_static)
+        if self.seed_is_moistened:
+            self._simulation.run(Tair, Tsoil, Zsowing, optimal_growth_option)
+            self._update_shared_MTG(self._simulation.outputs['hiddenzone'], self._simulation.outputs['elements'], self._simulation.outputs['axes'], option_static)
 
-        if update_shared_df or (update_shared_df is None and self._update_shared_df):
-            elongwheat_hiddenzones_outputs_df, elongwheat_elements_outputs_df, elongwheat_SAM_temperature_outputs_df = converter.to_dataframes(self._simulation.outputs)
-            self._update_shared_dataframes(elongwheat_hiddenzones_outputs_df, elongwheat_elements_outputs_df, elongwheat_SAM_temperature_outputs_df)
+            if update_shared_df or (update_shared_df is None and self._update_shared_df):
+                elongwheat_hiddenzones_outputs_df, elongwheat_elements_outputs_df, elongwheat_SAM_temperature_outputs_df = converter.to_dataframes(self._simulation.outputs)
+                self._update_shared_dataframes(elongwheat_hiddenzones_outputs_df, elongwheat_elements_outputs_df, elongwheat_SAM_temperature_outputs_df)
 
     def _initialize_model(self):
         """
@@ -127,6 +130,11 @@ class ElongWheatFacade(object):
 
                 mtg_axis_properties = self._shared_mtg.get_vertex_property(mtg_axis_vid)
 
+                if 'endosperm' in mtg_axis_properties and mtg_axis_properties['endosperm']['moistening'] < 1:
+                    self.seed_is_moistened = False
+                    continue
+                elif mtg_axis_label =='MS':
+                    self.seed_is_moistened = True
                 axis_id = (mtg_plant_index, mtg_axis_label)
                 elongwheat_SAM_temperature_inputs_dict = {}
 

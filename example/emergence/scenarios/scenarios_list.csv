@@ -1,23 +1,6 @@
-Scenario,Simulation_Length,Run_Simulation,Run_From_Outputs,Run_Postprocessing,Generate_Graphs,Scenario_label,METEO_FILENAME,INPUTS_FILENAME
-1,4000,True,False,True,True,Semis 2.5 cm (Sreten),meteo_Ljutovac2002_since_sowing_on_19981015.csv,Scenario_0001
-2,4000,True,False,True,True,Semis 1.25 cm,meteo_Ljutovac2002_since_sowing_on_19981015.csv,Scenario_0002
-3,4000,True,False,True,True,Semis 5 cm,meteo_Ljutovac2002_since_sowing_on_19981015.csv,Scenario_0003
-4,4000,True,False,True,True,Graine -25%,meteo_Ljutovac2002_since_sowing_on_19981015.csv,Scenario_0004
-5,4000,True,False,True,True,Graine +25%,meteo_Ljutovac2002_since_sowing_on_19981015.csv,Scenario_0005
-6,4000,True,False,True,True,DATA_HIST_2008,DATA_HIST_2008.csv,inputs
-7,4000,True,False,True,True,DATA_HIST_2009,DATA_HIST_2009.csv,inputs
-8,4000,True,False,True,True,DATA_HIST_2010,DATA_HIST_2010.csv,inputs
-9,4000,True,False,True,True,DATA_HIST_2011,DATA_HIST_2011.csv,inputs
-10,4000,True,False,True,True,DATA_HIST_2012,DATA_HIST_2012.csv,inputs
-11,4000,True,False,True,True,DATA_HIST_2013,DATA_HIST_2013.csv,inputs
-12,4000,True,False,True,True,DATA_HIST_2014,DATA_HIST_2014.csv,inputs
-13,4000,True,False,True,True,DATA_HIST_2015,DATA_HIST_2015.csv,inputs
-14,4000,True,False,True,True,DATA_HIST_2016,DATA_HIST_2016.csv,inputs
-15,4000,True,False,True,True,DATA_HIST_2017,DATA_HIST_2017.csv,inputs
-16,4000,True,False,True,True,DATA_HIST_2018,DATA_HIST_2018.csv,inputs
-17,4000,True,False,True,True,DATA_HIST_2019,DATA_HIST_2019.csv,inputs
-18,4000,True,False,True,True,DATA_HIST_2020,DATA_HIST_2020.csv,inputs
-19,4000,True,False,True,True,DATA_HIST_2021,DATA_HIST_2021.csv,inputs
-20,4000,True,False,True,True,DATA_HIST_2022,DATA_HIST_2022.csv,inputs
-21,4000,True,False,True,True,DATA_HIST_2023,DATA_HIST_2023.csv,inputs
-22,4000,True,False,True,True,DATA_HIST_2024,DATA_HIST_2024.csv,inputs
+Scenario,Simulation_Length,Run_Simulation,Run_From_Outputs,Run_Postprocessing,Generate_Graphs,Scenario_label,METEO_FILENAME,INPUTS_FILENAME,cnwheat:endosperm:STARCH_MAX,cnwheat:endosperm:PROTEINS_MAX
+1,4000,True,False,True,True,Semis 2.5 cm (Sreten),meteo_Ljutovac2002_since_sowing_on_19981015.csv,Scenario_0001,,
+2,4000,True,False,True,True,Semis 1.25 cm,meteo_Ljutovac2002_since_sowing_on_19981015.csv,Scenario_0002,,
+3,4000,True,False,True,True,Semis 5 cm,meteo_Ljutovac2002_since_sowing_on_19981015.csv,Scenario_0003,,
+4,4000,True,False,True,True,Graine -25%,meteo_Ljutovac2002_since_sowing_on_19981015.csv,Scenario_0004,975,45
+5,4000,True,False,True,True,Graine +25%,meteo_Ljutovac2002_since_sowing_on_19981015.csv,Scenario_0005,1625,75

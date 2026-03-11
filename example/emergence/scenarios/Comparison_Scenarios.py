@@ -9,7 +9,7 @@ delta_t_simuls = 1509
 # meteo_data['Date'] = pd.to_datetime(meteo_data['Date'], format='%d/%m/%Y')
 
 
-def phloem(df_scenarios_dict, df_marion_organs, tmin, tmax):
+def phloem(df_scenarios_dict, tmin, tmax):
     fig, axs = plt.subplots(2, 2)
 
     # phloem sucrose & AA
@@ -25,19 +25,15 @@ def phloem(df_scenarios_dict, df_marion_organs, tmin, tmax):
         # 4
         axs[1, 1].plot(df_current_organs[(df_current_organs.organ == 'phloem')]['t'], df_current_organs[(df_current_organs.organ == 'phloem')]['amino_acids'], label=data['label'])
 
-    # Marion
     # 1
-    axs[0, 0].plot(df_marion_organs[(df_marion_organs.organ == 'phloem')]['t'], df_marion_organs[(df_marion_organs.organ == 'phloem')]['Conc_Sucrose'], label='Marion', linestyle='--')
     axs[0, 0].set_xlim(tmin, tmax)
     axs[0, 0].set_ylabel('Concentration sucrose (µmol g-1)')
 
     # 2
-    axs[0, 1].plot(df_marion_organs[(df_marion_organs.organ == 'phloem')]['t'], df_marion_organs[(df_marion_organs.organ == 'phloem')]['sucrose'], label='Marion', linestyle='--')
     axs[0, 1].set_xlim(tmin, tmax)
     axs[0, 1].set_ylabel('Amount of sucrose (µmol C)')
 
     # 3
-    axs[1, 0].plot(df_marion_organs[(df_marion_organs.organ == 'phloem')]['t'], df_marion_organs[(df_marion_organs.organ == 'phloem')]['Conc_Amino_Acids'], label='Marion', linestyle='--')
     axs[1, 0].set_xlim(tmin, tmax)
     axs[1, 0].set_ylabel('Concentration amino acids (µmol g-1)')
 
@@ -49,7 +45,6 @@ def phloem(df_scenarios_dict, df_marion_organs, tmin, tmax):
     # ax2.spines['bottom'].set_position(('outward', 35))
 
     # 4
-    axs[1, 1].plot(df_marion_organs[(df_marion_organs.organ == 'phloem')]['t'], df_marion_organs[(df_marion_organs.organ == 'phloem')]['amino_acids'], label='Marion', linestyle='--')
     axs[1, 1].legend(fontsize="4")
     axs[1, 1].set_xlim(tmin, tmax)
     axs[1, 1].set_ylabel('amino acids (µmol N)')
@@ -65,7 +60,7 @@ def phloem(df_scenarios_dict, df_marion_organs, tmin, tmax):
     pdf.savefig()  # saves the current figure into a pdf page
     plt.close()
 
-def photosynthesis(df_scenarios_dict, df_marion_axes):
+def photosynthesis(df_scenarios_dict):
 
     fig, axis = plt.subplots()
 
@@ -73,9 +68,6 @@ def photosynthesis(df_scenarios_dict, df_marion_axes):
         df_current_axes = data['axes']
         df_current_axes['day'] = df_current_axes['t'] // 24 + 1
         axis.plot(df_current_axes['day'].unique(), df_current_axes.groupby('day')['Total_Photosynthesis'].sum(), label=data['label'])
-
-    df_marion_axes['day'] = df_marion_axes['t'] // 24 +1
-    axis.plot(df_marion_axes['day'].unique(), df_marion_axes.groupby('day')['Total_Photosynthesis'].sum(), label='Marion', linestyle='--')
 
     axis.set_xlabel('Time (day)')
     axis.set_ylabel('Total Photosynthesis µmol C')
@@ -85,7 +77,7 @@ def photosynthesis(df_scenarios_dict, df_marion_axes):
     pdf.savefig()  # saves the current figure into a pdf page
     plt.close()
 
-def roots(df_scenarios_dict, df_marion_organs, tmin, tmax):
+def roots(df_scenarios_dict, tmin, tmax):
     fig, axs = plt.subplots(2, 2)
 
     # phloem sucrose & AA
@@ -101,17 +93,14 @@ def roots(df_scenarios_dict, df_marion_organs, tmin, tmax):
         axs[1, 1].plot(df_current_organs[(df_current_organs.organ == 'roots')]['t'], df_current_organs[(df_current_organs.organ == 'roots')]['Conc_cytokinins'], label=data['label'])
 
     # 1
-    axs[0, 0].plot(df_marion_organs[(df_marion_organs.organ == 'roots')]['t'], df_marion_organs[(df_marion_organs.organ == 'roots')]['Conc_Sucrose'], label='Marion', linestyle='--')
     axs[0, 0].set_xlim(tmin, tmax)
     axs[0, 0].set_ylabel('Concentration sucrose (µmol g-1)')
     # 2
-    axs[0, 1].plot(df_marion_organs[(df_marion_organs.organ == 'roots')]['t'], df_marion_organs[(df_marion_organs.organ == 'roots')]['sucrose'], label='Marion', linestyle='--')
     axs[0, 1].set_xlim(tmin, tmax)
     axs[0, 1].set_ylim(0, 1000)
     axs[0, 1].set_ylabel('Amount of sucrose (µmol C)')
 
     # 3
-    axs[1, 0].plot(df_marion_organs[(df_marion_organs.organ == 'roots')]['t'], df_marion_organs[(df_marion_organs.organ == 'roots')]['Conc_Nitrates'], label='Marion', linestyle='--')
     axs[1, 0].set_xlim(tmin, tmax)
     axs[1, 0].set_ylabel('Concentration nitrates (µmol g-1)')
 
@@ -123,7 +112,6 @@ def roots(df_scenarios_dict, df_marion_organs, tmin, tmax):
     # ax2.spines['bottom'].set_position(('outward', 35))
 
     # 4
-    axs[1, 1].plot(df_marion_organs[(df_marion_organs.organ == 'roots')]['t'], df_marion_organs[(df_marion_organs.organ == 'roots')]['Conc_cytokinins'], label='Marion', linestyle='--')
     axs[1, 1].legend(fontsize="4")
     axs[1, 1].set_xlim(tmin, tmax)
     axs[1, 1].set_ylabel('Conc_cytokinins (µmol N)')
@@ -139,7 +127,7 @@ def roots(df_scenarios_dict, df_marion_organs, tmin, tmax):
     pdf.savefig()  # saves the current figure into a pdf page
     plt.close()
 
-def dry_mass(df_scenarios_dict, df_marion_axes, df_marion_organs, tmin, tmax):
+def dry_mass(df_scenarios_dict, tmin, tmax):
     fig, axs = plt.subplots(2, 2, sharex=True)
 
     for scenario_num, data in df_scenarios_dict.items():
@@ -156,17 +144,14 @@ def dry_mass(df_scenarios_dict, df_marion_axes, df_marion_organs, tmin, tmax):
         axs[1, 1].plot(df_current_organs[df_current_organs['organ'] == 'roots']['t'], df_current_organs[df_current_organs['organ'] == 'roots']['mstruct'], label=data['label'])
 
     # Dry mass shoot
-    axs[0, 0].plot(df_marion_axes['t'], df_marion_axes['sum_dry_mass_shoot'], label='Marion', linestyle='--')
     axs[0, 0].set_xlim(tmin, tmax)
     axs[0, 0].set_ylabel('Dry mass shoot (g)')
 
     # Dry mass roots
-    axs[0, 1].plot(df_marion_axes['t'], df_marion_axes['sum_dry_mass_roots'], label='Marion', linestyle='--')
     axs[0, 1].set_xlim(tmin, tmax)
     axs[0, 1].set_ylabel('Dry mass roots (g)')
 
     # mstruct shoot
-    axs[1, 0].plot(df_marion_axes['t'], df_marion_axes['mstruct_shoot'], label='Marion', linestyle='--')
     axs[1, 0].set_xlim(tmin, tmax)
     axs[1, 0].set_ylabel('mstruct shoot (g)')
 
@@ -178,7 +163,6 @@ def dry_mass(df_scenarios_dict, df_marion_axes, df_marion_organs, tmin, tmax):
     # ax2.spines['bottom'].set_position(('outward', 35))
 
     # mstruct roots
-    axs[1, 1].plot(df_marion_organs[df_marion_organs['organ'] == 'roots']['t'], df_marion_organs[df_marion_organs['organ'] == 'roots']['mstruct'], label='Marion', linestyle='--')
     axs[1, 1].legend(fontsize="4")
     axs[1, 1].set_xlim(tmin, tmax)
     axs[1, 1].set_ylabel('mstruct roots (g)')
@@ -202,7 +186,6 @@ def dry_mass(df_scenarios_dict, df_marion_axes, df_marion_organs, tmin, tmax):
         df_current_axes = data['axes']
         axis.plot(df_current_axes['t'], df_current_axes['shoot_roots_ratio'], label=data['label'])
 
-    axis.plot(df_marion_axes['t'], df_marion_axes['shoot_roots_ratio'], label='Marion', linestyle='--')
     axis.legend()
     axis.set_xlim(tmin, tmax)
     axis.set_ylim(0, 2)
@@ -218,7 +201,7 @@ def dry_mass(df_scenarios_dict, df_marion_axes, df_marion_organs, tmin, tmax):
     pdf.savefig()  # saves the current figure into a pdf page
     plt.close()
 
-def N_mass(df_scenarios_dict, df_marion_axes, df_marion_organs, tmin, tmax):
+def N_mass(df_scenarios_dict, tmin, tmax):
     fig, axs = plt.subplots(2, 2, sharex=True)
 
     for scenario_num, data in df_scenarios_dict.items():
@@ -235,18 +218,15 @@ def N_mass(df_scenarios_dict, df_marion_axes, df_marion_organs, tmin, tmax):
 
     # Marion
     # % N axis
-    axs[0, 0].plot(df_marion_axes['t'], df_marion_axes['N_content'], label='Marion', linestyle='--')
     axs[0, 0].set_xlim(tmin, tmax)
     axs[0, 0].set_ylim(0, 10)
     axs[0, 0].set_ylabel('N content axis (% DM)')
 
     # N shoot
-    axs[0, 1].plot(df_marion_axes['t'], df_marion_axes['N_content_shoot'], label='Marion', linestyle='--')
     axs[0, 1].set_xlim(tmin, tmax)
     axs[0, 1].set_ylabel('N content shoot (% DM)')
 
     # N axis
-    axs[1, 0].plot(df_marion_axes['t'], df_marion_axes['sum_N_g'], label='Marion', linestyle='--')
     axs[1, 0].set_xlim(tmin, tmax)
     axs[1, 0].set_ylabel('N content axis (g)')
     # ax2 = axs[1, 0].twiny()
@@ -257,7 +237,6 @@ def N_mass(df_scenarios_dict, df_marion_axes, df_marion_organs, tmin, tmax):
     # ax2.spines['bottom'].set_position(('outward', 35))
 
     # N uptake
-    axs[1, 1].plot(df_marion_organs[df_marion_organs['organ'] == 'roots']['t'], df_marion_organs[df_marion_organs['organ'] == 'roots']['Uptake_Nitrates'], label='Marion', linestyle='--')
     axs[1, 1].legend(fontsize="4")
     axs[1, 1].set_xlim(tmin, tmax)
     axs[1, 1].set_ylabel('Nitrate uptake (µmol)')
@@ -273,7 +252,7 @@ def N_mass(df_scenarios_dict, df_marion_axes, df_marion_organs, tmin, tmax):
     plt.close()
 
 
-def surface(df_scenarios_dict, df_marion_elements, tmin, tmax):
+def surface(df_scenarios_dict, tmin, tmax):
     fig, axs = plt.subplots(2, 2)
 
     for scenario_num, data in df_scenarios_dict.items():
@@ -293,19 +272,14 @@ def surface(df_scenarios_dict, df_marion_elements, tmin, tmax):
 
     # Marion
     # Total green area
-    axs[0, 0].plot(df_marion_elements['t'].unique(), df_marion_elements.groupby('t')['green_area'].sum(), label='Marion', linestyle='--')
     axs[0, 0].set_xlim(tmin, tmax)
     axs[0, 0].set_ylabel('Total green area (m²)')
 
     # Blade green area
-    df_marion_elements_blade = df_marion_elements[df_marion_elements.organ == 'blade']
-    axs[0, 1].plot(df_marion_elements_blade['t'].unique(), df_marion_elements_blade.groupby('t')['green_area'].sum(), label='Marion', linestyle='--')
     axs[0, 1].set_xlim(tmin, tmax)
     axs[0, 1].set_ylabel('Blade green area (m²)')
 
     # Sheath green area
-    df_marion_elements_sheath = df_marion_elements[df_marion_elements.organ == 'sheath']
-    axs[1, 0].plot(df_marion_elements_sheath['t'].unique(), df_marion_elements_sheath.groupby('t')['green_area'].sum(), label='Marion', linestyle='--')
     axs[1, 0].set_xlim(tmin, tmax)
     axs[1, 0].set_ylabel('Sheath green area (m²)')
     # ax2 = axs[1, 0].twiny()
@@ -316,8 +290,6 @@ def surface(df_scenarios_dict, df_marion_elements, tmin, tmax):
     # ax2.spines['bottom'].set_position(('outward', 35))
 
     # Internode green area
-    df_marion_elements_internode = df_marion_elements[df_marion_elements.organ == 'internode']
-    axs[1, 1].plot(df_marion_elements_internode['t'].unique(), df_marion_elements_internode.groupby('t')['green_area'].sum(), label='Marion', linestyle='--')
     axs[1, 1].legend(fontsize=4)
     axs[1, 1].set_xlim(tmin, tmax)
     axs[1, 1].set_ylabel('Internode green area (m²)')
@@ -333,7 +305,7 @@ def surface(df_scenarios_dict, df_marion_elements, tmin, tmax):
     plt.close()
 
 
-def final_dimensions(df_scenarios_dict, df_Marion_hz, df_marion_SAMS):
+def final_dimensions(df_scenarios_dict):
     fig, axs = plt.subplots(2, 2)
 
     for scenario_num, data in df_scenarios_dict.items():
@@ -367,19 +339,15 @@ def final_dimensions(df_scenarios_dict, df_Marion_hz, df_marion_SAMS):
         axs[1, 1].plot(phyllochron['metamer'], phyllochron['phyllochron'], marker='o', label=data['label'])
 
     # Lmax
-    axs[0, 0].plot(df_Marion_hz['metamer'].unique(), df_Marion_hz.groupby('metamer')['leaf_Lmax'].max(), label='Marion', marker='o', linestyle='--')
     axs[0, 0].set_ylabel('Final leaf length (m)')
     axs[0, 0].set_xlim(0, 10)
     # Wmax
-    axs[0, 1].plot(df_Marion_hz['metamer'].unique(), df_Marion_hz.groupby('metamer')['leaf_Wmax'].max(), label='Marion', marker='o', linestyle='--')
     axs[0, 1].set_ylabel('Maximal leaf width (m)')
     axs[0, 1].set_xlim(0, 10)
     # SSLW
-    axs[1, 0].plot(df_Marion_hz['metamer'].unique(), df_Marion_hz.groupby('metamer')['SSLW'].max(), label='Marion', marker='o', linestyle='--')
     axs[1, 0].set_ylabel('Specific Structural leaf weight (g m-2)')
     axs[1, 0].set_xlim(0, 10)
     # Phyllochron
-    grouped_df = df_Marion_hz.groupby('metamer')[['t', 'leaf_is_emerged']]
     leaf_emergence = {}
     for metamer, data in grouped_df:
         if metamer == 3 or True not in data['leaf_is_emerged'].unique(): continue
@@ -390,15 +358,8 @@ def final_dimensions(df_scenarios_dict, df_Marion_hz, df_marion_SAMS):
     for metamer, leaf_emergence_t in sorted(leaf_emergence.items()):
         if metamer == 4: continue
         phyllochron['metamer'].append(metamer)
-        prev_leaf_emergence_t = leaf_emergence[metamer - 1]
-        leaf_emergence_dd_i = df_marion_SAMS[(df_marion_SAMS['t'] == leaf_emergence_t)].sum_TT.values[0]
-        if df_marion_SAMS[(df_marion_SAMS['t'] == leaf_emergence_t) | (df_marion_SAMS['t'] == prev_leaf_emergence_t)].sum_TT.count() == 2:
-            phyllo_DD = leaf_emergence_dd_i - df_marion_SAMS[(df_marion_SAMS['t'] == prev_leaf_emergence_t)].sum_TT.values[0]
-        else:
-            phyllo_DD = np.nan
         phyllochron['phyllochron'].append(phyllo_DD)
 
-    axs[1, 1].plot(phyllochron['metamer'], phyllochron['phyllochron'], marker='s', label='Marion')
     axs[1, 1].legend(fontsize=4, markerscale=0.5)
     axs[1, 1].set_ylabel('Phyllochron (degree day)')
 
@@ -414,7 +375,7 @@ if __name__ == '__main__':
     # get current directory
     path = os.getcwd()
 
-    for scenario_num in [1,2,3,4,5] : # scenarios_df['Scenario']:
+    for scenario_num in scenarios_df['Scenario']:
         df_scenarios_dict[scenario_num] = {}
         df_scenarios_dict[scenario_num]['label'] = scenarios_df[scenarios_df['Scenario'] == scenario_num]['Scenario_label'].iloc[0]
 
@@ -446,36 +407,36 @@ if __name__ == '__main__':
         df_current_hz = df_current_hz[df_current_hz['axis'] == 'MS']
         df_scenarios_dict[scenario_num]['hz'] = df_current_hz
 
-    # Path Marion
-    dirpath_marion = r'E:\Modeles\Docs\Gauthier_2020_JExpBot\Soumission_JXBot'
-    OUTPUTS_MARION = os.path.join(dirpath_marion, 'outputs')
-    POSTPROCESSING_MARION = os.path.join(dirpath_marion, 'postprocessing')
-    GRAPHS_MARION = os.path.join(dirpath_marion, 'graphs')
-
-    # Axes
-    df_marion_axes = pd.read_csv(os.path.join(POSTPROCESSING_MARION, 'axes_postprocessing.csv'))
-    df_marion_axes = df_marion_axes[df_marion_axes['axis'] == 'MS']
-    df_marion_axes['t'] = df_marion_axes['t'] + delta_t_simuls
-
-    # SAMs
-    df_marion_SAMS = pd.read_csv(os.path.join(dirpath_marion, 'outputs', 'SAM_states.csv'))
-    df_marion_SAMS = df_marion_SAMS[df_marion_SAMS['axis'] == 'MS']
-    df_marion_SAMS['t'] = df_marion_SAMS['t'] + delta_t_simuls
-
-    # Organs
-    df_marion_organs = pd.read_csv(os.path.join(POSTPROCESSING_MARION, 'organs_postprocessing.csv'))
-    df_marion_organs = df_marion_organs[df_marion_organs['axis'] == 'MS']
-    df_marion_organs['t'] = df_marion_organs['t'] + delta_t_simuls
-
-    # Elements
-    df_marion_elements = pd.read_csv(os.path.join(POSTPROCESSING_MARION, 'elements_postprocessing.csv'))
-    df_marion_elements = df_marion_elements[df_marion_elements['axis'] == 'MS']
-    df_marion_elements['t'] = df_marion_elements['t'] + delta_t_simuls
-
-    # HZ
-    df_marion_hz = pd.read_csv(os.path.join(OUTPUTS_MARION, 'hiddenzones_states.csv'))
-    df_marion_hz = df_marion_hz[df_marion_hz['axis'] == 'MS']
-    df_marion_hz['t'] = df_marion_hz['t'] + delta_t_simuls
+    # # Path Marion
+    # dirpath_marion = r'E:\Modeles\Docs\Gauthier_2020_JExpBot\Soumission_JXBot'
+    # OUTPUTS_MARION = os.path.join(dirpath_marion, 'outputs')
+    # POSTPROCESSING_MARION = os.path.join(dirpath_marion, 'postprocessing')
+    # GRAPHS_MARION = os.path.join(dirpath_marion, 'graphs')
+    #
+    # # Axes
+    # df_marion_axes = pd.read_csv(os.path.join(POSTPROCESSING_MARION, 'axes_postprocessing.csv'))
+    # df_marion_axes = df_marion_axes[df_marion_axes['axis'] == 'MS']
+    # df_marion_axes['t'] = df_marion_axes['t'] + delta_t_simuls
+    #
+    # # SAMs
+    # df_marion_SAMS = pd.read_csv(os.path.join(dirpath_marion, 'outputs', 'SAM_states.csv'))
+    # df_marion_SAMS = df_marion_SAMS[df_marion_SAMS['axis'] == 'MS']
+    # df_marion_SAMS['t'] = df_marion_SAMS['t'] + delta_t_simuls
+    #
+    # # Organs
+    # df_marion_organs = pd.read_csv(os.path.join(POSTPROCESSING_MARION, 'organs_postprocessing.csv'))
+    # df_marion_organs = df_marion_organs[df_marion_organs['axis'] == 'MS']
+    # df_marion_organs['t'] = df_marion_organs['t'] + delta_t_simuls
+    #
+    # # Elements
+    # df_marion_elements = pd.read_csv(os.path.join(POSTPROCESSING_MARION, 'elements_postprocessing.csv'))
+    # df_marion_elements = df_marion_elements[df_marion_elements['axis'] == 'MS']
+    # df_marion_elements['t'] = df_marion_elements['t'] + delta_t_simuls
+    #
+    # # HZ
+    # df_marion_hz = pd.read_csv(os.path.join(OUTPUTS_MARION, 'hiddenzones_states.csv'))
+    # df_marion_hz = df_marion_hz[df_marion_hz['axis'] == 'MS']
+    # df_marion_hz['t'] = df_marion_hz['t'] + delta_t_simuls
 
     tmin = df_current_axes.t.min()
     tmax = 4000#df_current_axes.t.max()
@@ -483,22 +444,22 @@ if __name__ == '__main__':
     # plot graphs
     with PdfPages('Comparison_scenarios.pdf') as pdf:
         # phloem
-        phloem(df_scenarios_dict, df_marion_organs, tmin, tmax)
+        phloem(df_scenarios_dict, tmin, tmax)
 
         # Photosynthesis
-        photosynthesis(df_scenarios_dict, df_marion_axes)
+        photosynthesis(df_scenarios_dict)
 
         # roots
-        roots(df_scenarios_dict, df_marion_organs, tmin, tmax)
+        roots(df_scenarios_dict, tmin, tmax)
 
         # dry mass & shoot : root
-        dry_mass(df_scenarios_dict, df_marion_axes, df_marion_organs, tmin, tmax)
+        dry_mass(df_scenarios_dict, tmin, tmax)
 
         # N mass
-        N_mass(df_scenarios_dict, df_marion_axes, df_marion_organs, tmin, tmax)
+        N_mass(df_scenarios_dict, tmin, tmax)
 
         # Surfaces
-        surface(df_scenarios_dict, df_marion_elements, tmin, tmax)
+        surface(df_scenarios_dict, tmin, tmax)
 
         # Final dimensions
-        final_dimensions(df_scenarios_dict, df_marion_hz, df_marion_SAMS)
+        final_dimensions(df_scenarios_dict)

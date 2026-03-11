@@ -19,7 +19,7 @@ def exponential_fertilization_rate(V0, K, t, dt, plant_density):
     return ferti_per_plant * plant_density * (10 ** 6) / 14  # µmol N m-2
 
 
-def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenarios'):
+def run_fspmwheat(scenario_id=1, inputs_dir_path='scenarios', outputs_dir_path='scenarios'):
     """
     Run the main.py of fspmwheat using data from a specific scenario
 
@@ -39,7 +39,7 @@ def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenari
     scenario_parameters = tools.buildDic(scenario)
 
     # Path of the directory which contains the inputs of the model
-    INPUTS_FILENAME = os.path.join(inputs_dir_path, scenario_parameters.get('INPUTS_FILENAME', 'inputs'))
+    INPUTS_FILENAME = os.path.join(inputs_dir_path, 'inputs', scenario_parameters.get('INPUTS_FILENAME', 'inputs'))
     
     # Do run the simulation?
     RUN_SIMU = scenario_parameters.get('Run_Simulation', True)
@@ -119,8 +119,8 @@ def run_fspmwheat(scenario_id=1, inputs_dir_path=None, outputs_dir_path='scenari
 
 
 if __name__ == '__main__':
-    scenario = 4
-    inputs = os.path.join('scenarios', 'inputs', 'Scenario_%.4d' % scenario)
+    scenario = 1
+    inputs = 'scenarios'
     outputs = 'scenarios'
 
 

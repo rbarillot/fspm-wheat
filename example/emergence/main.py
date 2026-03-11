@@ -476,7 +476,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
                     # Run the rest of the model if the plant is alive
                     for t_farquharwheat in range(t_senescwheat, t_senescwheat + SENESCWHEAT_TIMESTEP, FARQUHARWHEAT_TIMESTEP):
                         # get the meteo of the current step
-                        Ta, ambient_CO2, RH, Ur = meteo.loc[t_farquharwheat, ['air_temperature', 'ambient_CO2', 'humidity', 'Wind']]
+                        Ta, Tsoil, ambient_CO2, RH, Ur = meteo.loc[t_farquharwheat, ['air_temperature', 'soil_temperature', 'ambient_CO2', 'humidity', 'Wind']]
 
                         # run FarquharWheat
                         farquharwheat_facade_.run(Ta, ambient_CO2, RH, Ur)
@@ -484,7 +484,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
                         for t_elongwheat in range(t_farquharwheat, t_farquharwheat + FARQUHARWHEAT_TIMESTEP, ELONGWHEAT_TIMESTEP):
                             # run ElongWheat
                             Tair, Tsoil = meteo.loc[t_elongwheat, ['air_temperature', 'soil_temperature']]
-                            elongwheat_facade_.run(Tair, Tsoil, Zsowing, option_static=option_static)
+                            elongwheat_facade_.run(Tair, Tsoil, Zsowing, optimal_growth_option=False, option_static=option_static)
 
                             # Update geometry
                             adel_wheat.update_geometry(g)
@@ -509,8 +509,8 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
                                         Tsoil = meteo.loc[t_elongwheat, 'soil_temperature']
                                         cnwheat_facade_.run(Tair, Tsoil, tillers_replications)
                                     # Adel 3D plant save
-                                    if t_cnwheat % 24 == 0:
-                                        adel_wheat.scene(g).save(os.path.join(OUTPUTS_DIRPATH, 'ADEL', 't{}.bgeom'.format(t_cnwheat)))
+                                    # if t_cnwheat % 24 == 0:
+                                    #     adel_wheat.scene(g).save(os.path.join(OUTPUTS_DIRPATH, 'ADEL', 't{}.bgeom'.format(t_cnwheat)))
 
                                     # append outputs at current step to global lists
                                     if (stored_times == 'all') or (t_cnwheat in stored_times):
@@ -1045,7 +1045,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
 
 
 if __name__ == '__main__':
-    main(4000, forced_start_time=1998, run_simu=True, run_postprocessing=True, generate_graphs=True, run_from_outputs=False,
+    main(4000, forced_start_time=800, run_simu=True, run_postprocessing=True, generate_graphs=True, run_from_outputs=False,
          show_3Dplant=False,
          option_static=False, tillers_replications={'T1': 0.5, 'T2': 0.5, 'T3': 0.5, 'T4': 0.5},
          heterogeneous_canopy=True, N_fertilizations={2949: 357143, 4029: 1000000},
