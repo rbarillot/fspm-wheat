@@ -79,7 +79,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
     :param bool show_3Dplant: whether to plot the scene in pgl viewer
     :param dict [str, float] tillers_replications: a dictionary with tiller id as key, and weight of replication as value.
     :param bool heterogeneous_canopy: Whether to create a duplicated heterogeneous canopy from the initial mtg.
-    :param dict [int, float] or [str, float] N_fertilizations: a dictionary for N fertilisation regime {date: N_input}, with date in hour and N_input in µmol N nitrates
+    :param dict [int, float] or [str, float] N_fertilizations: a dictionary for N fertilisation regime {date: N_input}, with date in hour and N_input in Âµmol N nitrates
                                                or {'constant_Conc_Nitrates': val} for constant nitrates concentrations
     :param dict [int, int] PLANT_DENSITY: a dict with plant density per plant id (temporary used to account for different cultivars if needed) ; plant m-2
     :param dict update_parameters_all_models: a dict to update model parameters
@@ -425,7 +425,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
     adel_wheat.update_geometry(g)
     if show_3Dplant:
         adel_wheat.plot(g)
-    adel_wheat.scene(g).save(os.path.join(OUTPUTS_DIRPATH, 'ADEL', 't_init2.bgeom'))
+    #adel_wheat.scene(g).save(os.path.join(OUTPUTS_DIRPATH, 'ADEL', 't_init2.bgeom'))
     # ---------------------------------------------
     # -----      RUN OF THE SIMULATION      -------
     # ---------------------------------------------
@@ -836,7 +836,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
         ax1.plot(list(rer_param.keys()), list(rer_param.values()), marker='*', color='k', linestyle='', label="Model parameters")
 
         # Formatting
-        ax1.set_ylabel(u'Relative Elongation Rate at 12°C (s$^{-1}$)')
+        ax1.set_ylabel(u'Relative Elongation Rate at 12Â°C (s$^{-1}$)')
         ax1.legend(prop={'size': 12}, bbox_to_anchor=(0.05, .6, 0.9, .5), loc='upper center', ncol=3, mode="expand", borderaxespad=0.)
         ax1.legend(loc='upper left')
         ax1.set_xlabel('Phytomer rank')
@@ -878,7 +878,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
 
         ax.set_xlabel('Days')
         ax2.set_ylim([0, 200])
-        ax.set_ylabel(u'C (µmol C.day$^{-1}$ )')
+        ax.set_ylabel(u'C (Âµmol C.day$^{-1}$ )')
         ax2.set_ylabel(u'Ratio (%)')
         ax.set_title('C allocation to roots')
         plt.savefig(os.path.join(GRAPHS_DIRPATH, 'C_allocation.PNG'), dpi=200, format='PNG', bbox_inches='tight')
