@@ -121,6 +121,8 @@ class FarquharWheatFacade(object):
                             mtg_element_label = self._shared_mtg.label(mtg_element_vid)
                             mtg_element_length = np.nan_to_num(self._shared_mtg.get_vertex_property(mtg_element_vid).get('length', 0.))
                             mtg_element_green_area = np.nan_to_num(self._shared_mtg.get_vertex_property(mtg_element_vid).get('green_area', 0.))
+                            mtg_element_length = self._shared_mtg.get_vertex_property(mtg_element_vid).get('length', 0.)
+                            mtg_element_green_area = self._shared_mtg.get_vertex_property(mtg_element_vid).get('green_area', 0.)
 
                             if mtg_element_label not in FARQUHARWHEAT_ELEMENTS_INPUTS or mtg_element_length <= 0 or mtg_element_green_area == 0:
                                 continue  # to excluse topElement, baseElement and elements with null length

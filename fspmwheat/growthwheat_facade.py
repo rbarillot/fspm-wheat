@@ -90,6 +90,8 @@ class GrowthWheatFacade(object):
         if self._update_shared_df:
             self._update_shared_dataframes(model_hiddenzones_inputs_df, model_elements_inputs_df, model_roots_inputs_df, model_axes_inputs_df)
 
+        self.seed_is_moistened = True
+
     def run(self, postflowering_stages=False, update_shared_df=None):
         """
         Run the model and update the MTG and the dataframes shared between all models.
@@ -97,12 +99,13 @@ class GrowthWheatFacade(object):
         :param bool update_shared_df: if 'True', update the shared dataframes at this time step.
         """
         self._initialize_model()
-        self._simulation.run(postflowering_stages)
-        self._update_shared_MTG(self._simulation.outputs['hiddenzone'], self._simulation.outputs['elements'], self._simulation.outputs['roots'], self._simulation.outputs['axes'])
+        if self.seed_is_moistened:
+            self._simulation.run(postflowering_stages)
+            self._update_shared_MTG(self._simulation.outputs['hiddenzone'], self._simulation.outputs['elements'], self._simulation.outputs['roots'], self._simulation.outputs['axes'])
 
-        if update_shared_df or (update_shared_df is None and self._update_shared_df):
-            growthwheat_hiddenzones_outputs_df, growthwheat_elements_outputs_df, growthwheat_roots_outputs_df, growthwheat_axes_outputs_df = converter.to_dataframes(self._simulation.outputs)
-            self._update_shared_dataframes(growthwheat_hiddenzones_outputs_df, growthwheat_elements_outputs_df, growthwheat_roots_outputs_df, growthwheat_axes_outputs_df)
+            if update_shared_df or (update_shared_df is None and self._update_shared_df):
+                growthwheat_hiddenzones_outputs_df, growthwheat_elements_outputs_df, growthwheat_roots_outputs_df, growthwheat_axes_outputs_df = converter.to_dataframes(self._simulation.outputs)
+                self._update_shared_dataframes(growthwheat_hiddenzones_outputs_df, growthwheat_elements_outputs_df, growthwheat_roots_outputs_df, growthwheat_axes_outputs_df)
 
     def _initialize_model(self):
         """
@@ -122,6 +125,13 @@ class GrowthWheatFacade(object):
                     continue
 
                 mtg_axis_properties = self._shared_mtg.get_vertex_property(mtg_axis_vid)
+
+                if 'endosperm' in mtg_axis_properties and mtg_axis_properties['endosperm']['moistening'] < 1:
+                    self.seed_is_moistened = False
+                    continue
+                elif mtg_axis_label =='MS':
+                    self.seed_is_moistened = True
+
                 axis_id = (mtg_plant_index, mtg_axis_label)
                 if set(mtg_axis_properties).issuperset(simulation.AXIS_INPUTS):
                     growthwheat_axis_inputs_dict = {}
@@ -155,7 +165,7 @@ class GrowthWheatFacade(object):
                                 growthwheat_hiddenzone_inputs_dict[growthwheat_hiddenzone_input_name] = mtg_hiddenzone_properties[growthwheat_hiddenzone_input_name]
                             all_growthwheat_hiddenzones_inputs_dict[hiddenzone_id] = growthwheat_hiddenzone_inputs_dict
 
-                        # We take only the elements of growing metamers ie. the ones with hiddenzones
+                        # We take only the elements of growing metamers i.e. the ones with hiddenzones
                         for mtg_organ_vid in self._shared_mtg.components_iter(mtg_metamer_vid):
                             mtg_organ_label = self._shared_mtg.label(mtg_organ_vid)
 

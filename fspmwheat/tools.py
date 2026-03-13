@@ -35,7 +35,7 @@ def combine_dataframes_inplace(model_dataframe, shared_column_indexes, shared_da
     :param list shared_column_indexes: The indexes to re-index `model_dataframe` and `shared_dataframe_to_update` before combining them.
     :param pandas.DataFrame shared_dataframe_to_update: The dataframe to update.
 
-    .. note:: `shared_dataframe_to_update` is updated in-place. Thus, `shared_dataframe_to_update` keeps the same object's memory address.
+    note:: `shared_dataframe_to_update` is updated in-place. Thus, `shared_dataframe_to_update` keeps the same object's memory address.
 
     """
 
@@ -84,7 +84,7 @@ def combine_dataframes_inplace(model_dataframe, shared_column_indexes, shared_da
 def plot_linear_regression(x_array, y_array, x_label='x', y_label='y', plot_filepath=None):
     """Perform a linear regression of `x_array` vs `y_array`
     and create a plot showing the fit against the original data.
-    If `plot_filepath` is not None, save the plot to a PNG file. Otherwise display the plot.
+    If `plot_filepath` is not None, save the plot to a PNG file. Otherwise, display the plot.
 
     This is derived from http://learningzone.rspsoc.org.uk/index.php/Learning-Materials/Python-Scripting/6.4-Fitting-linear-equations,
     which is under license CC BY-NC-SA 3.0 (https://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US).
@@ -92,14 +92,14 @@ def plot_linear_regression(x_array, y_array, x_label='x', y_label='y', plot_file
     :param numpy.ndarray x_array: The first set of measurements.
     :param numpy.ndarray y_array: The second set of measurements.
     :param str x_label: The label of the abscissa axis. Default is 'x'.
-    :param str y_label: The label of the ordinates axis. Default is 'y'.
+    :param str y_label: The label of the ordinates' axis. Default is 'y'.
     :param str plot_filepath: The file path to save the plot in. If `None`, do not save the plot.
 
     :Examples:
 
     >>> import pandas as pd
-    >>> modelmaker_output_df = pd.read_csv('modelmaker_output.csv') # 'modelmaker_output.csv' must contain at least the column 'Sucrose_Phloem'
-    >>> cnwheat_output_df = pd.read_csv('cnwheat_output.csv') # 'cnwheat_output.csv' must contain at least the column 'Sucrose_Phloem'
+    >>> modelmaker_output_df = pd.read_csv('modelmaker_output.csv') #'modelmaker_output.csv' must contain at least the column 'Sucrose_Phloem'
+    >>> cnwheat_output_df = pd.read_csv('cnwheat_output.csv') #'cnwheat_output.csv' must contain at least the column 'Sucrose_Phloem'
     >>> plot_linear_regression(modelmaker_output_df.Sucrose_Phloem,
                                cnwheat_output_df.Sucrose_Phloem,
                                x_label='modelmaker_{}'.format('Sucrose_Phloem'),

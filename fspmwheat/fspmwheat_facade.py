@@ -52,7 +52,7 @@ ORGANS_VARIABLES = set(cnwheat_simulation.Simulation.ORGANS_RUN_VARIABLES +
                        senescwheat_converter.SENESCWHEAT_ROOTS_INPUTS_OUTPUTS)
 SOILS_VARIABLES = set(cnwheat_simulation.Simulation.SOILS_RUN_VARIABLES)
 
-BOTANICAL_ORGANS_AT_AXIS_SCALE = ['roots', 'phloem', 'grains']
+BOTANICAL_ORGANS_AT_AXIS_SCALE = ['roots', 'phloem', 'grains', 'endosperm']
 BOTANICAL_COMPARTMENTS_AT_AXIS_SCALE = BOTANICAL_ORGANS_AT_AXIS_SCALE + ['soil']
 
 
@@ -65,35 +65,11 @@ class FSPMWheatFacade(object):
     """
 
     def __init__(self, shared_mtg):
-        # shared_axes_inputs_outputs_df,
-        # shared_organs_inputs_outputs_df,
-        # shared_hiddenzones_inputs_outputs_df,
-        # shared_elements_inputs_outputs_df,
-        # shared_soils_inputs_outputs_df,
-        # update_shared_df = True):
         """
         :param openalea.mtg.mtg.MTG shared_mtg: The MTG shared between all models.
-        :param pandas.DataFrame shared_axes_inputs_outputs_df: the dataframe of inputs and outputs at axes scale shared between all models.
-        :param pandas.DataFrame shared_organs_inputs_outputs_df: the dataframe of inputs and outputs at organs scale shared between all models.
-        :param pandas.DataFrame shared_hiddenzones_inputs_outputs_df: the dataframe of inputs and outputs at hiddenzones scale shared between all models.
-        :param pandas.DataFrame shared_elements_inputs_outputs_df: the dataframe of inputs and outputs at elements scale shared between all models.
-        :param pandas.DataFrame shared_soils_inputs_outputs_df: the dataframe of inputs and outputs at soils scale shared between all models.
-        :param bool update_shared_df: If `True`  update the shared dataframes at init and at each run (unless stated otherwise)
         """
 
         self._shared_mtg = shared_mtg  #: the MTG shared between all models
-
-        # self._shared_axes_inputs_outputs_df = shared_axes_inputs_outputs_df  #: the dataframe at axes scale shared between all models
-        # self._shared_organs_inputs_outputs_df = shared_organs_inputs_outputs_df  #: the dataframe at organs scale shared between all models
-        # self._shared_hiddenzones_inputs_outputs_df = shared_hiddenzones_inputs_outputs_df  #: the dataframe at hiddenzones scale shared between all models
-        # self._shared_elements_inputs_outputs_df = shared_elements_inputs_outputs_df  #: the dataframe at elements scale shared between all models
-        # self._shared_soils_inputs_outputs_df = shared_soils_inputs_outputs_df  #: the dataframe at soils scale shared between all models
-        # self._update_shared_df = update_shared_df
-        # if self._update_shared_df:
-        #     self._update_shared_dataframes(cnwheat_organs_data_df=model_organs_inputs_df,
-        #                                    cnwheat_hiddenzones_data_df=model_hiddenzones_inputs_df,
-        #                                    cnwheat_elements_data_df=model_elements_inputs_df,
-        #                                    cnwheat_soils_data_df=model_soils_inputs_df)
 
     def _read_outputs_on_MTG(self):
         """
@@ -129,8 +105,6 @@ class FSPMWheatFacade(object):
                     if botanical_organ_name in mtg_axis_properties:
                         organ_id = (mtg_plant_index, mtg_axis_label, botanical_organ_name)
                         mtg_organ_properties = mtg_axis_properties[botanical_organ_name]
-                        if mtg_organ_properties.get('sucrose') is None:
-                            continue
                         organ_dict = {}
                         for organ_run_variable in ORGANS_VARIABLES:
                             if organ_run_variable in mtg_organ_properties:
