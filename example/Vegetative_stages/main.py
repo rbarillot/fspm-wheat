@@ -237,7 +237,6 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
     # read adelwheat inputs at t0
     adel_wheat = AdelDyn(seed=1, scene_unit='m', leaves=echap_leaves(xy_model='Soissons_byleafclass'))
     g = adel_wheat.load(directory=INPUTS_DIRPATH)
-    adel_wheat.scene(g).save(os.path.join(OUTPUTS_DIRPATH, 'ADEL', 't_init.bgeom'))
 
     # ---------------------------------------------
     # ----- CONFIGURATION OF THE FACADES -------
