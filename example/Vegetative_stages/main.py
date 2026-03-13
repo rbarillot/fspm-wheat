@@ -425,7 +425,7 @@ def main(simulation_length, forced_start_time=0, run_simu=True, run_postprocessi
     adel_wheat.update_geometry(g)
     if show_3Dplant:
         adel_wheat.plot(g)
-    adel_wheat.scene(g).save(os.path.join(OUTPUTS_DIRPATH, 'ADEL', 't_init2.bgeom'))
+    # adel_wheat.scene(g).save(os.path.join(OUTPUTS_DIRPATH, 'ADEL', 't_init2.bgeom'))
     # ---------------------------------------------
     # -----      RUN OF THE SIMULATION      -------
     # ---------------------------------------------
